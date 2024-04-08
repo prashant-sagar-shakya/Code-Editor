@@ -1,0 +1,9 @@
+<===================================================== Global Installation of nodemon =====================================================>
+npm i -g nodemon
+
+<============================================ Local Installation of express compilex body-parser ===========================================>
+npm i express compilex body-parser
+
+
+
+or, you can simply run: npm i and then npm i -g nodemon
