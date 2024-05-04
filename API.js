@@ -3,17 +3,15 @@ const app = express();
 const bodyP = require("body-parser");
 const compiler = require("compilex");
 const options = { stats: true };
+const path = require("path");
 compiler.init(options);
 app.use(bodyP.json());
-app.use(
-  "/codemirror-5.65.16",
-  express.static("D:/Personal_Projects/Code Editor Project/codemirror-5.65.16")
-);
+app.use(express.static(path.join(__dirname, "public")));
 app.get("/", function (req, res) {
   compiler.flush(function () {
     console.log("Deleted");
   });
-  res.sendFile("D:/Personal_Projects/Code Editor Project/index.html");
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 app.post("/compile", function (req, res) {
   var code = req.body.code;

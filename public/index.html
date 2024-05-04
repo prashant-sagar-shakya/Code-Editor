@@ -5,30 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Code-Alpha</title>
 
-        <!-- Js-particles module and design -->
-
         <style>
-            /* Styling for js-particles */
-
-            #particles-js {
-                background-image: url("bg.jpg");
-                background-size: cover;
-                background-position: center;
-            }
-            #content {
-                position: absolute;
-            }
-
-            /* Styling for body background image but unfortunately its not working with API*/
-
-            .body {
+            /* Styling for body background image */
+            body {
                 background-image: url("bg.jpg");
                 background-size: cover;
                 background-position: center;
             }
         </style>
-        <!-- page icon -->
 
+        <!-- page icon -->
         <link rel="icon" href="icon.jpg" type="image/jpg" />
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
@@ -52,16 +38,13 @@
             href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
         />
     </head>
-    <body>
-        <!-- div for js-particles -->
-
-        <div id="particles-js">
-        <div class="row m-3" id="content">
+    <body id="particles-js">
+        <div class="row m-3 position-absolute">
             <div class="col">
                 <div
                     class="d-flex justify-content-between mb-2 bg-dark rounded p-2"
                 >
-                    <div class="col-12 w-25">
+                    <div class="col-8 w-25">
                         <label
                             class="visually-hidden"
                             for="inlineFormSelectPref"
@@ -85,7 +68,8 @@
                     type="text"
                     id="editor"
                     class="form-control"
-                    aria-label="First name"
+                    style="width: 75%"
+                    aria-label="Code editor"
                 ></textarea>
             </div>
             <div class="col d-flex flex-column rounded bg-dark px-4">
@@ -113,14 +97,8 @@
                 </div>
             </div>
         </div>
-
-        <!-- closing div for js-particles -->
-        </div>
-
-        <!-- Scripts for js-particles -->
-
         <script src="particles.js"></script>
-    <script src="app.js"></script>
+        <script src="app.js"></script>
     </body>
     <script>
         var editor = CodeMirror.fromTextArea(
