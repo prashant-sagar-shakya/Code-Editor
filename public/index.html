@@ -31,7 +31,7 @@
         <script src="codemirror-5.65.16\lib\codemirror.js"></script>
         <script src="codemirror-5.65.16/mode/clike/clike.js"></script>
         <script src="codemirror-5.65.16/mode/python/python.js"></script>
-        <link rel="stylesheet" href="codemirror-5.65.16\theme\xq-dark.css" />
+        <link rel="stylesheet" href="codemirror-5.65.16\theme\tomorrow-night-eighties.css" />
         <script src="codemirror-5.65.16\addon\edit\closebrackets.js"></script>
         <link
             rel="stylesheet"
@@ -71,9 +71,10 @@
                     class="form-control"
                     style="width: 75%"
                     aria-label="Code editor"
+                    style="background-color: #000000;"
                 ></textarea>
             </div>
-            <div class="col d-flex flex-column rounded bg-dark px-4">
+            <div class="col d-flex flex-column rounded bg-dark px-4 text-center">
                 <div class="h-50">
                     <label for="Input" class="text-light mt-4 mb-2"
                         ><strong>INPUT</strong></label
@@ -81,8 +82,9 @@
                     <textarea
                         type="text"
                         id="input"
-                        class="form-control h-75"
+                        class="form-control h-75 text-white"
                         aria-label="Last name"
+                        style="background-color: #000000; font-family: 'Courier New', Courier, monospace; font-weight: 750;"
                     ></textarea>
                 </div>
                 <div class="h-50">
@@ -92,8 +94,9 @@
                     <textarea
                         type="text"
                         id="output"
-                        class="form-control h-75"
+                        class="form-control h-75 text-white"
                         aria-label="Last name"
+                        style="background-color: #080808; font-family: 'Courier New', Courier, monospace; font-weight: 750;"
                     ></textarea>
                 </div>
             </div>
@@ -105,11 +108,12 @@
             document.getElementById("editor"),
             {
                 mode: "text/x-c++src",
-                theme: "xq-dark",
+                theme: "tomorrow-night-eighties",
                 lineNumbers: true,
                 autoCloseBrackets: true,
             }
         );
+        // editor.getWrapperElement().style.backgroundColor = "#080808";
         var width = window.innerWidth;
         editor.setSize(0.7 * width, "600");
         var input = document.getElementById("input");
