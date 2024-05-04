@@ -156,15 +156,15 @@
                 input: input.value,
                 lang: option.value,
             };
-            var oData = await fetch("http://localhost:8000/compile", {
+            var oData = await fetch( {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(code),
             });
-            var d = await oData.json();
-            output.value = d.output;
+            var data = await oData.json();
+            output.value = data.output;
         });
     </script>
 </html>
