@@ -106,5 +106,4 @@ app.post("/compile", function (req, res) {
         console.log("Error Occured");
     }
 });
-const port = process.env.PORT;
-app.listen(port || 8000);
+app.listen(process.env.PORT || 8000);
