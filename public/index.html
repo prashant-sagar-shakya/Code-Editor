@@ -79,9 +79,7 @@
                     style="background-color: #000000"
                 ></textarea>
             </div>
-            <div
-                class="col d-flex flex-column rounded bg-dark px-4 text-center"
-            >
+            <div class="col d-flex flex-column rounded bg-dark px-4">
                 <div class="h-50">
                     <label for="Input" class="text-light mt-4 mb-2"
                         ><strong>INPUT</strong></label
@@ -131,7 +129,6 @@
                 keyMap: "sublime",
             }
         );
-        // editor.getWrapperElement().style.backgroundColor = "#080808";
         var width = window.innerWidth;
         editor.setSize(0.7 * width, "600");
         var input = document.getElementById("input");
@@ -156,15 +153,15 @@
                 input: input.value,
                 lang: option.value,
             };
-            var oData = await fetch( {
+            var oData = await fetch("http://localhost:8000/compile", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify(code),
             });
-            var data = await oData.json();
-            output.value = data.output;
+            var d = await oData.json();
+            output.value = d.output;
         });
     </script>
 </html>
