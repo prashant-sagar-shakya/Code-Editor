@@ -181,7 +181,10 @@
             currentSuggestion = "";
         }
 
+        let isRateLimited = false;
+
         async function fetchSuggestion() {
+            if (isRateLimited) return;
             const cursor = editor.getCursor();
             try {
                 const res = await fetch("/autocomplete", {
@@ -189,6 +192,13 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ code: editor.getValue(), line: cursor.line, ch: cursor.ch })
                 });
+                
+                if (res.status === 429) {
+                    isRateLimited = true;
+                    setTimeout(() => isRateLimited = false, 30000); // Wait 30s
+                    return;
+                }
+
                 const data = await res.json();
                 if (data.suggestion) showGhostText(data.suggestion);
             } catch(e) {}
@@ -243,7 +253,7 @@
             suggestionTimeout = setTimeout(() => {
                 const totalCode = editor.getValue();
                 if (totalCode.length > 5) fetchSuggestion();
-            }, 600);
+            }, 2000); // Increased debounce to 2s to save quota
         });
 
         // --- AI CHAT SYSTEM ---
@@ -276,14 +286,24 @@
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ message: msg, context: editor.getValue() })
                 });
+                
                 const data = await res.json();
                 typingIndicator.classList.add("hidden");
+
+                if (res.status === 429) {
+                    const aiMsg = document.createElement("div");
+                    aiMsg.className = "message ai error";
+                    aiMsg.innerHTML = `<i class="bi bi-exclamation-triangle"></i> <strong>Rate Limit Hit:</strong> ${data.message || "Please wait a moment."}`;
+                    aiMessages.appendChild(aiMsg);
+                    aiMessages.scrollTo({ top: aiMessages.scrollHeight, behavior: 'smooth' });
+                    return;
+                }
                 
                 const aiMsg = document.createElement("div");
                 aiMsg.className = "message ai";
                 aiMsg.innerHTML = marked.parse(data.reply || "No response.");
                 
-                if (data.reply.includes("```")) {
+                if (data.reply && data.reply.includes("```")) {
                     const btnGroup = document.createElement("div");
                     btnGroup.className = "tool-group";
                     btnGroup.style.marginTop = "10px";
@@ -319,7 +339,13 @@
                 
                 aiMessages.appendChild(aiMsg);
                 aiMessages.scrollTo({ top: aiMessages.scrollHeight, behavior: 'smooth' });
-            } catch(e) { typingIndicator.classList.add("hidden"); }
+            } catch(e) { 
+                typingIndicator.classList.add("hidden"); 
+                const aiMsg = document.createElement("div");
+                aiMsg.className = "message ai error";
+                aiMsg.innerText = "Something went wrong. Please check your connection or try again.";
+                aiMessages.appendChild(aiMsg);
+            }
         }
 
         // --- ERROR & HIGHLIGHT SYSTEM ---

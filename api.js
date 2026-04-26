@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "AIzaSyC8jNAnbJmNP3yFwpPv2iQdMaAU2SUmV6M";
+const GEMINI_API_KEY = "AIzaSyC8jNAnbJmNP3yFwpPv2iQdMaAU2SUmV6M";
 
 app.post("/compile", (req, res) => {
     const { code, input, lang } = req.body;
@@ -65,17 +65,30 @@ app.post("/chat", async (req, res) => {
     const { message, context } = req.body;
     const prompt = `Context: A code editor with this code:\n${context}\n\nUser: ${message}`;
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+
         const data = await response.json();
+
+        if (response.status === 429) {
+            return res.status(429).send({ 
+                error: "Rate Limit Exceeded", 
+                message: "AI is a bit busy. Please wait a few seconds before trying again.",
+                details: data.error 
+            });
+        }
+
         if (data.candidates && data.candidates.length > 0) {
             res.send({ reply: data.candidates[0].content.parts[0].text });
         } else {
             console.error("Gemini Error:", data);
-            res.status(500).send({ error: "AI Safety Filter or Error", details: data.error });
+            res.status(response.status || 500).send({ 
+                error: "Gemini API Error", 
+                details: data.error || "Unknown error" 
+            });
         }
     } catch (err) {
         console.error("Server Error:", err);
@@ -88,11 +101,16 @@ app.post("/autocomplete", async (req, res) => {
     const { code, line, ch } = req.body;
     const prompt = `Task: Complete this code from line ${line+1}, col ${ch}.\nCODE:\n${code}\nRule: Return ONLY raw code continuation. NO markdown. NO talk.`;
     try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
         });
+
+        if (response.status === 429) {
+            return res.status(429).send({ error: "Rate Limit" });
+        }
+
         const data = await response.json();
         if (data.candidates && data.candidates.length > 0) {
             let suggestion = data.candidates[0].content.parts[0].text || "";
