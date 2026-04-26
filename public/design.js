@@ -1,28 +1,46 @@
-var wH = window.innerHeight;
-var wW = window.innerWidth;
-var domBody = document.body;
+const starsContainer = document.getElementById('starsContainer');
+const starCount = 100;
 
-(function(n) {
-	  var leftArr = [20,25,30,35,40,45,50,55,60,65,60,65,70,75,80];
-	  var delayArr = [2,4,6,8,10,12,14,16,18,20,22,24,26,28,30,32,34,36,38,40,42,44,46,48,50];
+function createStars() {
+    if (!starsContainer) return;
+    
+    for (let i = 0; i < starCount; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        
+        // Random positions
+        const x = Math.random() * 100;
+        const y = Math.random() * 100;
+        
+        // Random size
+        const size = Math.random() * 2 + 1;
+        
+        // Random duration and delay
+        const duration = 2 + Math.random() * 3;
+        const delay = Math.random() * 5;
+        
+        star.style.left = `${x}%`;
+        star.style.top = `${y}%`;
+        star.style.width = `${size}px`;
+        star.style.height = `${size}px`;
+        star.style.setProperty('--duration', `${duration}s`);
+        star.style.animationDelay = `${delay}s`;
+        
+        starsContainer.appendChild(star);
+    }
+}
 
-  for (var i = 0; i < n; i++) {
-  	var leftEle = leftArr[Math.floor(Math.random()*leftArr.length)] + parseFloat(Math.random().toFixed(2));
-  	var delayEle = delayArr[Math.floor(Math.random()*delayArr.length)] * 1000 + Math.round(Math.random() * 700);
-    var div = document.createElement('div');
-    div.className = 'star comet';
-    div.setAttribute('style', 'left:' + leftEle + '%;animation-delay:' + delayEle + 'ms;');
-    domBody.appendChild(div);
-  }
-})(25);
+// Subtle mouse parallax effect
+document.addEventListener('mousemove', (e) => {
+    const x = e.clientX / window.innerWidth;
+    const y = e.clientY / window.innerHeight;
+    
+    const moveX = (x - 0.5) * 20;
+    const moveY = (y - 0.5) * 20;
+    
+    if (starsContainer) {
+        starsContainer.style.transform = `translate(${moveX}px, ${moveY}px)`;
+    }
+});
 
-(function(n) {
-  for (var i = 0; i < n; i++) {
-    var div = document.createElement('div');
-    div.className = i % 20 == 0 ? 'star star--big' : i % 9 == 0 ? 'star star--medium' : 'star';
-    // random everywhere!
-    div.setAttribute('style', 'top:' + Math.round(Math.random() * wH) + 'px;left:' + Math.round(Math.random() * wW) 
-    	+ 'px;animation-duration:' + (Math.round(Math.random() * 3000) + 3000) + 'ms;animation-delay:' + Math.round(Math.random() * 3000) + 'ms;');
-    domBody.appendChild(div);
-  }
-})(150);
+createStars();

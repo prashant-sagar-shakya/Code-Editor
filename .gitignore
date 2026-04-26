@@ -1,2 +1,9 @@
 /node_modules
 /temp
+*.cpp
+*.exe
+*.py
+*.class
+*.java
+*.out
+*.d

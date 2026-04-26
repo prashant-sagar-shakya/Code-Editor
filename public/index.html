@@ -1,167 +1,494 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Code-Alpha</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code-Alpha</title>
+    
+    <link rel="icon" href="icon.jpg" type="image/jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <link rel="stylesheet" href="codemirror-5.65.16/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/addon/hint/show-hint.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/addon/fold/foldgutter.css">
+    
+    <script src="codemirror-5.65.16/lib/codemirror.js"></script>
+    <script src="codemirror-5.65.16/mode/clike/clike.js"></script>
+    <script src="codemirror-5.65.16/mode/python/python.js"></script>
+    <script src="codemirror-5.65.16/addon/edit/closebrackets.js"></script>
+    <script src="codemirror-5.65.16/addon/edit/matchbrackets.js"></script>
+    <script src="codemirror-5.65.16/addon/hint/show-hint.js"></script>
+    <script src="codemirror-5.65.16/addon/hint/anyword-hint.js"></script>
+    <script src="codemirror-5.65.16/addon/selection/active-line.js"></script>
+    <script src="codemirror-5.65.16/addon/fold/foldcode.js"></script>
+    <script src="codemirror-5.65.16/addon/fold/foldgutter.js"></script>
+    <script src="codemirror-5.65.16/addon/fold/brace-fold.js"></script>
+    <script src="codemirror-5.65.16/addon/fold/indent-fold.js"></script>
+    <script src="codemirror-5.65.16/addon/fold/comment-fold.js"></script>
+    
+    <!-- Themes -->
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/tomorrow-night-eighties.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/dracula.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/monokai.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/material-ocean.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/ayu-dark.css">
+    <link rel="stylesheet" href="codemirror-5.65.16/theme/eclipse.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="stars-container" id="starsContainer"></div>
 
-        <style>
-            /* Styling for body background image */
-            body {
-                background-image: url("bg.jpg");
-                background-size: cover;
-                background-position: center;
-            }
-        </style>
-
-        <!-- page icon -->
-        <link rel="icon" href="icon.jpg" type="image/jpg" />
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-            crossorigin="anonymous"
-        />
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-            crossorigin="anonymous"
-        ></script>
-        <link rel="stylesheet" href="codemirror-5.65.16/lib/codemirror.css" />
-        <script src="codemirror-5.65.16\lib\codemirror.js"></script>
-        <script src="codemirror-5.65.16/mode/clike/clike.js"></script>
-        <script src="codemirror-5.65.16/mode/python/python.js"></script>
-        <link
-            rel="stylesheet"
-            href="codemirror-5.65.16\theme\tomorrow-night-eighties.css"
-        />
-        <script src="codemirror-5.65.16\addon\edit\closebrackets.js"></script>
-        <script src="codemirror-5.65.16\addon\edit\matchbrackets.js"></script>
-        <script src="codemirror-5.65.16\keymap\sublime.js"></script>
-        <link
-            rel="stylesheet"
-            href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-        />
-        <link rel="stylesheet" href="style.css" />
-    </head>
-    <body>
-        <div class="row m-3 position">
-            <div class="col">
-                <div
-                    class="d-flex justify-content-between mb-2 bg-dark rounded p-2"
-                >
-                    <div class="col-8 w-25">
-                        <label
-                            class="visually-hidden"
-                            for="inlineFormSelectPref"
-                            >Preference</label
-                        >
-                        <select class="form-select" id="inlineFormSelectPref">
-                            <option selected>Choose...</option>
-                            <option value="Java">Java</option>
-                            <option value="Cpp">C/Cpp</option>
-                            <option value="Python">Python</option>
-                        </select>
-                    </div>
-                    <div>
-                        <button type="button" id="run" class="btn btn-success">
-                            Run Code
-                            <i class="bi bi-play-fill"></i>
-                        </button>
-                    </div>
-                </div>
-                <textarea
-                    type="text"
-                    id="editor"
-                    class="form-control"
-                    style="width: 75%"
-                    aria-label="Code editor"
-                    style="background-color: #000000"
-                ></textarea>
-            </div>
-            <div class="col d-flex flex-column rounded bg-dark px-4">
-                <div class="h-50">
-                    <label for="Input" class="text-light mt-4 mb-2"
-                        ><strong>INPUT</strong></label
-                    >
-                    <textarea
-                        type="text"
-                        id="input"
-                        class="form-control h-75 text-white"
-                        aria-label="Last name"
-                        style="
-                            background-color: #000000;
-                            font-family: 'Courier New', Courier, monospace;
-                            font-weight: 750;
-                        "
-                    ></textarea>
-                </div>
-                <div class="h-50">
-                    <label for="output" class="text-light mb-2"
-                        ><strong>OUTPUT</strong></label
-                    >
-                    <textarea
-                        type="text"
-                        id="output"
-                        class="form-control h-75 text-white"
-                        aria-label="Last name"
-                        style="
-                            background-color: #080808;
-                            font-family: 'Courier New', Courier, monospace;
-                            font-weight: 750;
-                        "
-                    ></textarea>
-                </div>
+    <header class="app-header">
+        <div class="logo">
+            <div class="logo-icon"><i class="bi bi-cpu-fill"></i></div>
+            <div class="logo-text">
+                <span class="main">CODE-ALPHA</span>
             </div>
         </div>
-        <script src="design.js"></script>
-    </body>
+        <div class="header-right">
+            <button id="themeToggle" class="btn-icon" title="Toggle Mode"><i class="bi bi-moon-stars-fill"></i></button>
+            <button id="aiChatToggle" class="btn-ai"><i class="bi bi-robot"></i> AI ASSISTANT</button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <section class="editor-section">
+            <div class="toolbar">
+                <div class="tool-group">
+                    <select class="custom-select" id="langSelect">
+                        <option value="Cpp">C++</option>
+                        <option value="C">C</option>
+                        <option value="Java">Java</option>
+                        <option value="Python">Python</option>
+                    </select>
+                    <select class="custom-select" id="themeSelect">
+                        <option value="tomorrow-night-eighties">Tomorrow Night</option>
+                        <option value="dracula">Dracula</option>
+                        <option value="monokai">Monokai</option>
+                        <option value="material-ocean">Material Ocean</option>
+                        <option value="ayu-dark">Ayu Dark</option>
+                        <option value="eclipse">Eclipse (Light)</option>
+                    </select>
+                    <select class="custom-select" id="fontSizeSelect">
+                        <option value="12px">12px</option>
+                        <option value="14px">14px</option>
+                        <option value="16px" selected>16px</option>
+                        <option value="18px">18px</option>
+                        <option value="20px">20px</option>
+                        <option value="24px">24px</option>
+                    </select>
+                </div>
+                <div class="tool-group">
+                    <button id="aiExplainBtn" class="btn-tool" title="Explain Code"><i class="bi bi-patch-question"></i> Explain</button>
+                    <button id="aiFixBtn" class="btn-tool" title="Fix Bugs"><i class="bi bi-magic"></i> Fix Bugs</button>
+                    <button id="undoBtn" class="btn-tool hidden" title="Undo AI Change"><i class="bi bi-arrow-counterclockwise"></i> Undo</button>
+                    <button id="saveBtn" class="btn-tool" title="Download Code"><i class="bi bi-download"></i> Save</button>
+                </div>
+                <div class="spacer"></div>
+                <button id="runBtn" class="btn-run"><i class="bi bi-play-fill"></i> Run Code</button>
+                <button id="fullscreenBtn" class="btn-icon"><i class="bi bi-arrows-fullscreen"></i></button>
+            </div>
+            <div class="editor-wrapper">
+                <textarea id="editor" style="display: none;"></textarea>
+            </div>
+        </section>
+
+        <aside class="side-section" id="sidePanel">
+            <div class="io-panel" id="ioPanel">
+                <div class="io-box">
+                    <span class="io-title">INPUT</span>
+                    <textarea id="input" class="io-textarea" placeholder="Paste input..."></textarea>
+                </div>
+                <div class="io-box">
+                    <div class="io-header">
+                        <span class="io-title">OUTPUT</span>
+                        <button id="clearBtn" class="btn-clear">CLEAR</button>
+                    </div>
+                    <textarea id="output" class="io-textarea" readonly placeholder="Output results..."></textarea>
+                </div>
+            </div>
+            
+            <div class="ai-panel hidden" id="aiPanel">
+                <div class="ai-header">
+                    <span class="ai-title"><i class="bi bi-stars"></i> CODE-ALPHA AI</span>
+                    <button id="closeAiBtn" class="btn-icon"><i class="bi bi-x-lg"></i></button>
+                </div>
+                <div class="ai-messages" id="aiMessages">
+                    <div class="message ai">Hi! I'm Code-Alpha AI. How can I help you today?</div>
+                </div>
+                <div id="typingIndicator" class="hidden" style="margin-left: 1.5rem; font-size: 0.8rem; color: var(--text-dim); padding: 10px 0; font-style: italic;">thinking...</div>
+
+                <div class="ai-input-wrapper">
+                    <input type="text" id="aiInput" placeholder="Ask something...">
+                    <button id="sendAiBtn" class="btn-icon"><i class="bi bi-send-fill"></i></button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script src="design.js"></script>
     <script>
-        var editor = CodeMirror.fromTextArea(
-            document.getElementById("editor"),
-            {
-                mode: "text/x-c++src",
-                theme: "tomorrow-night-eighties",
-                matchBrackets: true,
-                lineNumbers: true,
-                autoCloseBrackets: true,
-                tabSize: 4,
-                keyMap: "sublime",
-            }
-        );
-        var width = window.innerWidth;
-        editor.setSize(0.7 * width, "600");
-        var input = document.getElementById("input");
-        var output = document.getElementById("output");
-        var run = document.getElementById("run");
-        var option = document.getElementById("inlineFormSelectPref");
+        // Standard String Fixes
+        marked.setOptions({
+            highlight: function(code, lang) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            },
+            langPrefix: 'hljs language-'
+        });
 
-        option.addEventListener("change", function () {
-            if (option.value == "Java") {
-                editor.setOption("mode", "text/x-java");
-            } else if (option.value == "Python") {
-                editor.setOption("mode", "text/x-python");
-            } else if (option.value == "Cpp") {
-                editor.setOption("mode", "text/x-c++src");
+        const editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+            mode: "text/x-c++src",
+            theme: "tomorrow-night-eighties",
+            lineNumbers: true,
+            autoCloseBrackets: true,
+            matchBrackets: true,
+            tabSize: 4,
+            indentUnit: 4,
+            lineWrapping: true,
+            styleActiveLine: true,
+            foldGutter: true,
+            gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"],
+            extraKeys: {"Ctrl-Space": "autocomplete"}
+        });
+
+        const samples = {
+            Cpp: "#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hello World!\" << endl;\n    return 0;\n}",
+            C: "#include <stdio.h>\n\nint main() {\n    printf(\"Hello C!\\n\");\n    return 0;\n}",
+            Java: "public class Main {\n    public static void main(String[] args) {\n        System.out.println(\"Hello Java\");\n    }\n}",
+            Python: "print(\"Hello Python\")"
+        };
+        editor.setValue(samples.Cpp);
+
+        // --- GHOST TEXT SYSTEM ---
+        let ghostWidget = null;
+        let suggestionUI = null;
+        let currentSuggestion = "";
+        let suggestionTimeout;
+
+        function clearSuggestion() {
+            if (ghostWidget) ghostWidget.clear();
+            if (suggestionUI) suggestionUI.remove();
+            ghostWidget = null;
+            suggestionUI = null;
+            currentSuggestion = "";
+        }
+
+        async function fetchSuggestion() {
+            const cursor = editor.getCursor();
+            try {
+                const res = await fetch("/autocomplete", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: editor.getValue(), line: cursor.line, ch: cursor.ch })
+                });
+                const data = await res.json();
+                if (data.suggestion) showGhostText(data.suggestion);
+            } catch(e) {}
+        }
+
+        function showGhostText(text) {
+            clearSuggestion();
+            currentSuggestion = text;
+            const cursor = editor.getCursor();
+            
+            const span = document.createElement("span");
+            span.className = "ghost-text";
+            span.innerText = text;
+            ghostWidget = editor.setBookmark(cursor, { widget: span });
+
+            suggestionUI = document.createElement("div");
+            suggestionUI.className = "suggestion-ui";
+            suggestionUI.innerHTML = '<button class="btn-mini accept">Tab Accept</button>' +
+                                    '<button class="btn-mini reject">Esc Reject</button>';
+            
+            const coords = editor.cursorCoords(true, "window");
+            suggestionUI.style.left = coords.left + 'px';
+            suggestionUI.style.top = (coords.bottom + 5) + 'px';
+            document.body.appendChild(suggestionUI);
+
+            suggestionUI.querySelector(".accept").onclick = acceptSuggestion;
+            suggestionUI.querySelector(".reject").onclick = clearSuggestion;
+        }
+
+        function acceptSuggestion() {
+            if (!currentSuggestion) return;
+            const cursor = editor.getCursor();
+            editor.replaceRange(currentSuggestion, cursor);
+            clearSuggestion();
+        }
+
+        editor.on("keydown", (cm, e) => {
+            if (currentSuggestion) {
+                if (e.key === "Tab") {
+                    e.preventDefault();
+                    acceptSuggestion();
+                } else if (e.key === "Escape") {
+                    e.preventDefault();
+                    clearSuggestion();
+                }
             }
         });
 
-        var code;
-        run.addEventListener("click", async function () {
-            code = {
-                code: editor.getValue(),
-                input: input.value,
-                lang: option.value,
-            };
-            var oData = await fetch("http://localhost:8000/compile", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(code),
-            });
-            var d = await oData.json();
-            output.value = d.output;
+        editor.on("change", () => {
+            clearSuggestion();
+            clearTimeout(suggestionTimeout);
+            suggestionTimeout = setTimeout(() => {
+                const totalCode = editor.getValue();
+                if (totalCode.length > 5) fetchSuggestion();
+            }, 600);
         });
+
+        // --- AI CHAT SYSTEM ---
+        const aiInput = document.getElementById("aiInput");
+        const aiMessages = document.getElementById("aiMessages");
+        const typingIndicator = document.getElementById("typingIndicator");
+        let codeHistory = [];
+
+        function saveToHistory() {
+            codeHistory.push(editor.getValue());
+            if (codeHistory.length > 10) codeHistory.shift();
+            document.getElementById("undoBtn").classList.remove("hidden");
+        }
+
+        async function askAI(customMsg) {
+            const msg = customMsg || aiInput.value.trim();
+            if (!msg) return;
+            
+            const userMsg = document.createElement("div");
+            userMsg.className = "message user";
+            userMsg.innerText = msg;
+            aiMessages.appendChild(userMsg);
+            aiInput.value = "";
+            aiMessages.scrollTo({ top: aiMessages.scrollHeight, behavior: 'smooth' });
+
+            typingIndicator.classList.remove("hidden");
+            try {
+                const res = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: msg, context: editor.getValue() })
+                });
+                const data = await res.json();
+                typingIndicator.classList.add("hidden");
+                
+                const aiMsg = document.createElement("div");
+                aiMsg.className = "message ai";
+                aiMsg.innerHTML = marked.parse(data.reply || "No response.");
+                
+                if (data.reply.includes("```")) {
+                    const btnGroup = document.createElement("div");
+                    btnGroup.className = "tool-group";
+                    btnGroup.style.marginTop = "10px";
+
+                    const codeMatch = data.reply.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                    const extractedCode = codeMatch ? codeMatch[1].trim() : "";
+
+                    const copyBtn = document.createElement("button");
+                    copyBtn.className = "btn-tool";
+                    copyBtn.innerHTML = '<i class="bi bi-copy"></i> Copy';
+                    copyBtn.onclick = () => {
+                        navigator.clipboard.writeText(extractedCode);
+                        copyBtn.innerHTML = '<i class="bi bi-check"></i> Copied!';
+                        setTimeout(() => copyBtn.innerHTML = '<i class="bi bi-copy"></i> Copy', 2000);
+                    };
+
+                    const applyBtn = document.createElement("button");
+                    applyBtn.className = "btn-tool";
+                    applyBtn.innerHTML = '<i class="bi bi-check-circle"></i> Apply';
+                    applyBtn.onclick = () => {
+                        if (extractedCode) {
+                            saveToHistory();
+                            editor.setValue(extractedCode);
+                            highlightFixedLines();
+                            document.getElementById("closeAiBtn").click();
+                        }
+                    };
+
+                    btnGroup.appendChild(copyBtn);
+                    btnGroup.appendChild(applyBtn);
+                    aiMsg.appendChild(btnGroup);
+                }
+                
+                aiMessages.appendChild(aiMsg);
+                aiMessages.scrollTo({ top: aiMessages.scrollHeight, behavior: 'smooth' });
+            } catch(e) { typingIndicator.classList.add("hidden"); }
+        }
+
+        // --- ERROR & HIGHLIGHT SYSTEM ---
+        let errorMarkers = [];
+        let errorLines = [];
+        function clearErrors() { 
+            errorMarkers.forEach(m => m.clear()); 
+            errorLines.forEach(l => editor.removeLineClass(l, "background", "error-line"));
+            errorMarkers = []; 
+            errorLines = [];
+        }
+
+        function highlightFixedLines() {
+            const lineCount = editor.lineCount();
+            for(let i=0; i<lineCount; i++) {
+                editor.addLineClass(i, "background", "fixed-line");
+            }
+            setTimeout(() => {
+                for(let i=0; i<lineCount; i++) {
+                    editor.removeLineClass(i, "background", "fixed-line");
+                }
+            }, 3000);
+        }
+
+        document.getElementById("runBtn").addEventListener("click", async () => {
+            const btn = document.getElementById("runBtn");
+            btn.disabled = true; btn.innerHTML = 'Running...';
+            clearErrors();
+            try {
+                const res = await fetch("/compile", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ code: editor.getValue(), input: document.getElementById("input").value, lang: document.getElementById("langSelect").value })
+                });
+                const data = await res.json();
+                const out = data.output || data.error || "";
+                document.getElementById("output").value = out;
+                
+                const lineMatches = out.match(/(?:line\s|:)(\d+)/gi);
+                if (lineMatches) {
+                    lineMatches.forEach(m => {
+                        const line = parseInt(m.match(/\d+/)[0]) - 1;
+                        if (!isNaN(line) && line >= 0) {
+                            errorMarkers.push(editor.markText({line, ch: 0}, {line, ch: 100}, {className: "error-squiggle"}));
+                            editor.addLineClass(line, "background", "error-line");
+                            errorLines.push(line);
+                        }
+                    });
+                }
+            } catch(e) {}
+            btn.disabled = false; btn.innerHTML = '<i class="bi bi-play-fill"></i> Run Code';
+        });
+
+        document.getElementById("aiFixBtn").addEventListener("click", async () => {
+            const btn = document.getElementById("aiFixBtn");
+            const originalHTML = btn.innerHTML;
+            btn.disabled = true; btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Fixing...';
+            clearErrors();
+            
+            try {
+                const res = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ message: "Find bugs and provide a fixed version. ONLY provide code in block.", context: editor.getValue() })
+                });
+                const data = await res.json();
+                const codeMatch = data.reply.match(/```(?:\w+)?\n([\s\S]*?)```/);
+                if (codeMatch) {
+                    saveToHistory();
+                    editor.setValue(codeMatch[1].trim());
+                    highlightFixedLines();
+                    btn.innerHTML = '<i class="bi bi-check-all"></i> Fixed!';
+                    btn.style.background = "rgba(35, 134, 54, 0.4)";
+                } else {
+                    btn.innerHTML = '<i class="bi bi-exclamation-triangle"></i> No fix';
+                }
+            } catch(e) { btn.innerHTML = '<i class="bi bi-x-circle"></i> Error'; }
+
+            setTimeout(() => {
+                btn.disabled = false; btn.innerHTML = originalHTML; btn.style.background = "";
+            }, 5000);
+        });
+
+        // --- UI CONTROLS ---
+        document.getElementById("aiExplainBtn").addEventListener("click", () => triggerAiFeature("Explain this code."));
+        document.getElementById("undoBtn").addEventListener("click", () => {
+            if (codeHistory.length > 0) {
+                editor.setValue(codeHistory.pop());
+                if (codeHistory.length === 0) document.getElementById("undoBtn").classList.add("hidden");
+            }
+        });
+
+        const sendAiBtn = document.getElementById("sendAiBtn");
+        aiInput.addEventListener("input", () => {
+            if (aiInput.value.trim().length > 0) sendAiBtn.classList.add("active");
+            else sendAiBtn.classList.remove("active");
+        });
+
+        document.getElementById("sendAiBtn").addEventListener("click", () => { askAI(); sendAiBtn.classList.remove("active"); });
+        aiInput.addEventListener("keypress", (e) => { if(e.key === "Enter") askAI(); });
+
+        async function triggerAiFeature(prompt) {
+            document.getElementById("aiPanel").classList.remove("hidden");
+            document.getElementById("ioPanel").classList.add("hidden");
+            await askAI(prompt);
+        }
+
+        document.getElementById("aiChatToggle").addEventListener("click", () => {
+            document.getElementById("aiPanel").classList.toggle("hidden");
+            document.getElementById("ioPanel").classList.toggle("hidden");
+        });
+        document.getElementById("closeAiBtn").addEventListener("click", () => {
+            document.getElementById("aiPanel").classList.add("hidden");
+            document.getElementById("ioPanel").classList.remove("hidden");
+        });
+
+        document.getElementById("themeToggle").addEventListener("click", () => {
+            document.body.classList.toggle("light-mode");
+            const isLight = document.body.classList.contains("light-mode");
+            document.getElementById("themeToggle").innerHTML = isLight ? '<i class="bi bi-sun-fill"></i>' : '<i class="bi bi-moon-stars-fill"></i>';
+            const newTheme = isLight ? "eclipse" : "tomorrow-night-eighties";
+            editor.setOption("theme", newTheme);
+            document.getElementById("themeSelect").value = newTheme;
+            localStorage.setItem("theme", isLight ? "light" : "dark");
+        });
+
+        if (localStorage.getItem("theme") === "light") {
+            document.body.classList.add("light-mode");
+            document.getElementById("themeToggle").innerHTML = '<i class="bi bi-sun-fill"></i>';
+            editor.setOption("theme", "eclipse");
+            document.getElementById("themeSelect").value = "eclipse";
+        }
+
+        document.getElementById("fontSizeSelect").addEventListener("change", (e) => {
+            document.querySelector(".CodeMirror").style.fontSize = e.target.value;
+            editor.refresh();
+        });
+
+        document.getElementById("themeSelect").addEventListener("change", (e) => editor.setOption("theme", e.target.value));
+        document.getElementById("langSelect").addEventListener("change", (e) => {
+            const lang = e.target.value;
+            editor.setOption("mode", lang === "Java" ? "text/x-java" : lang === "Python" ? "text/x-python" : "text/x-c++src");
+            editor.setValue(samples[lang]);
+        });
+
+        document.getElementById("saveBtn").addEventListener("click", () => {
+            const lang = document.getElementById("langSelect").value;
+            const extMap = { Cpp: "cpp", C: "c", Java: "java", Python: "py" };
+            const blob = new Blob([editor.getValue()], { type: "text/plain" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = 'code.' + extMap[lang];
+            link.click();
+        });
+
+        document.getElementById("fullscreenBtn").addEventListener("click", () => {
+            const btn = document.getElementById("fullscreenBtn");
+            btn.classList.remove("pop");
+            void btn.offsetWidth;
+            btn.classList.add("pop");
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                btn.innerHTML = '<i class="bi bi-arrows-angle-contract"></i>';
+            } else {
+                document.exitFullscreen();
+                btn.innerHTML = '<i class="bi bi-arrows-fullscreen"></i>';
+            }
+        });
+        document.getElementById("clearBtn").addEventListener("click", () => document.getElementById("output").value = "");
     </script>
+</body>
 </html>
