@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const { spawn } = require("child_process");
+require("dotenv").config();
 
 const fs = require("fs");
 
@@ -9,7 +10,7 @@ const app = express();
 app.use(express.json());
 app.use(express.static("public"));
 
-const GEMINI_API_KEY = "AIzaSyC8jNAnbJmNP3yFwpPv2iQdMaAU2SUmV6M";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
 app.post("/compile", (req, res) => {
     const { code, input, lang } = req.body;
