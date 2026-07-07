@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node api.js",
     "dev": "nodemon api.js",
-    "build": "vite build"
+    "build": "echo 'No build step required'"
   },
   "author": "",
   "license": "ISC",
