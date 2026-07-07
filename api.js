@@ -16,16 +16,20 @@ app.post("/compile", (req, res) => {
     const { code, input, lang } = req.body;
     let fileName, compileCmd, runCmd;
 
+    const isWin = process.platform === "win32";
+    const exeExt = isWin ? ".exe" : ".out";
+    const runPrefix = isWin ? "" : "./";
+
     if (lang === "Cpp") {
         fileName = "temp.cpp";
         fs.writeFileSync(fileName, code);
-        compileCmd = `g++ ${fileName} -o temp.exe`;
-        runCmd = `temp.exe`;
+        compileCmd = `g++ ${fileName} -o temp${exeExt}`;
+        runCmd = `${runPrefix}temp${exeExt}`;
     } else if (lang === "C") {
         fileName = "temp.c";
         fs.writeFileSync(fileName, code);
-        compileCmd = `gcc ${fileName} -o temp.exe`;
-        runCmd = `temp.exe`;
+        compileCmd = `gcc ${fileName} -o temp${exeExt}`;
+        runCmd = `${runPrefix}temp${exeExt}`;
     } else if (lang === "Java") {
         fileName = "Main.java";
         fs.writeFileSync(fileName, code);
@@ -34,7 +38,7 @@ app.post("/compile", (req, res) => {
     } else if (lang === "Python") {
         fileName = "temp.py";
         fs.writeFileSync(fileName, code);
-        runCmd = `python ${fileName}`;
+        runCmd = isWin ? `python ${fileName}` : `python3 ${fileName}`;
     }
 
     const processInput = (cmd, args, isRun = false) => {
